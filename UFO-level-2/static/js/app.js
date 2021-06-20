@@ -20,135 +20,89 @@ function loadData(data){
 // Initial load of table data 
 loadData(tableData);
 
-// // Select the filter button
-// var button = d3.select("#filter-btn");
+// Select the filter button
+var button = d3.select("#filter-btn");
 
-// // Select the form
-// var form = d3.select("form");
+// Select the form
+var form = d3.select("form");
 
-// // Create event handlers 
-// button.on("click", runEnter);
-// form.on("submit",runEnter);
+// Create event handlers 
+button.on("click", runEnter);
+form.on("submit",runEnter);
 
-// // Complete the event handler function for the form
-// function runEnter() {
+// Complete the event handler function for the form
+function runEnter() {
 
-//     // Prevent the page from refreshing
-//     d3.event.preventDefault();
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
     
-//     var dateFilteredResult = DateFilter(tableData);
-//     var CountryFilteredResult = CountryFilter(dateFilteredResult);
-//     var StateFilteredResult = StateFilter(CountryFilteredResult);
-//     var CityFilteredResult = CityFilter(StateFilteredResult);
-//     var FinalFilteredResult = ShapeFilter(CityFilteredResult);
+    // var filteredData = tableData;
+    // var filteredData1 = DateFilter(filteredData);
+    // var filteredData2 = CountryFilter(filteredData1);
+    // var filteredData3 = StateFilter(filteredData2);
+    // var filteredData4 = CityFilter(filteredData3);
+    // var filteredData5 = ShapeFilter(filteredData4);
+
+
+    var filteredData = ShapeFilter(CityFilter(StateFilter(CountryFilter(DateFilter(tableData)))));
            
  
-//     // To remove all records from the table
-//     tbody.html("");
+    // To remove all records from the table
+    tbody.html("");
 
-//     // To load filtered data to the table
-//     loadData(FinalFilteredResult);
-// };
+    // To load filtered data to the table
+    loadData(filteredData);
+};
 
-// function DateFilter(data) {
-//     // Select the input element and get the raw HTML node
-//     var dateElement = d3.select("#datetime");
-  
-//     // Return the value property of the input element
-//     var dateFilterValue =  dateElement.property("value");
+function DateFilter(data) {
+    // Return the value property of the input element
+    var dateFilterValue =  d3.select("#datetime").property("value");
 
-//     if (dateFilterValue) {
-//         return data.filter(record => record.datetime === dateFilterValue);
-//     } else {
-//         return data;
-//     }
+    if (dateFilterValue) {
+        return data.filter(record => record.datetime === dateFilterValue);
+    } else {
+        return data;
+    }
 
-// }
+}
 
-// function CountryFilter(data) {
-//     // Select the input element and get the raw HTML node
-//     var countryElement = d3.select("#country");
-  
-//     // Return the value property of the input element
-//     CountryFilterValue =  countryElement.property("value");
-//     if (CountryFilterValue){
-//         return data.filter(record => record.datetime === CountryFilterValue);
-//     } else {
-//         return data;
-//     }
-// }
+function CountryFilter(data) {
+    // Return the value property of the input element
+    CountryFilterValue =  d3.select("#country").property("value");
+    if (CountryFilterValue){
+        return data.filter(record => record.country === CountryFilterValue);
+    } else {
+        return data;
+    }
+}
 
-// function StateFilter(data) {
-//     // Select the input element and get the raw HTML node
-//     var stateElement = d3.select("#state");
-  
-//     // Return the value property of the input element
-//     StateFilterValue =  stateElement.property("value");
-//     if (StateFilterValue){
-//         return data.filter(record => record.datetime === StateFilterValue);
-//     } else {
-//         return data;
-//     }
-// }
+function StateFilter(data) {
+    // Return the value property of the input element
+    StateFilterValue =  d3.select("#state").property("value");
+    if (StateFilterValue){
+        return data.filter(record => record.state === StateFilterValue);
+    } else {
+        return data;
+    }
+}
 
-// function CityFilter(data) {
-//     // Select the input element and get the raw HTML node
-//     var cityElement = d3.select("#city");
-  
-//     // Return the value property of the input element
-//     CityFilterValue =  cityElement.property("value");
-//     if (CityFilterValue){
-//         return data.filter(record => record.datetime === CityFilterValue);
-//     } else {
-//         return data;
-//     }
+function CityFilter(data) {
+    // Return the value property of the input element
+    CityFilterValue =  d3.select("#city").property("value");
+    if (CityFilterValue){
+        return data.filter(record => record.city === CityFilterValue);
+    } else {
+        return data;
+    }
 
-// }
+}
 
-// function ShapeFilter(data) {
-//     // Select the input element and get the raw HTML node
-//     var shapeElement = d3.select("#shape");
-  
-//     // Return the value property of the input element
-//     ShapeFilterValue =  shapeElement.property("value");
-//     if (ShapeFilterValue){
-//         return data.filter(record => record.datetime === ShapeFilterValue);
-//     } else {
-//         return data;
-//     }
-// }
-
-
-
-var dateElement = d3.select("#datetime");
-var dateFilterResult = dateElement.on("click",function(){
-    var dateFilterValue = d3.select(this);
-    return data.filter(record => record.datetime === dateFilterValue);
-});
-
-
-var countryElement = d3.select("#country");
-var countryFilterResult = countryElement.on("click",function(){
-    var countryFilterValue = d3.select(this);
-    return data.filter(record => record.country === countryFilterValue);
-});
-
-var stateElement = d3.select("#state");
-var stateFilterResult = stateElement.on("click",function(){
-    var stateFilterValue = d3.select(this);
-    return data.filter(record => record.city === stateFilterValue);
-}); 
-
-var cityElement = d3.select("#city");
-var cityFilterResult = cityElement.on("click",function(){
-    var cityFilterValue = d3.select(this);
-    return data.filter(record => record.city === cityFilterValue);
-});  
-
-var shapeElement = d3.select("#shape");
-var shapeFilterResult = shapeElement.on("click",function(){
-    var shapeFilterValue = d3.select(this);
-    return data.filter(record => record.shape === shapeFilterValue);
-});
-
-
+function ShapeFilter(data) {
+    // Return the value property of the input element
+    ShapeFilterValue =  d3.select("#shape").property("value");
+    if (ShapeFilterValue){
+        return data.filter(record => record.shape === ShapeFilterValue);
+    } else {
+        return data;
+    }
+}
